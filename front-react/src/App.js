@@ -1,25 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react';
 
 function App() {
+
+  const [backendData, setBackendData] = useState([{}]);
+
+  useEffect(() => {
+    fetch("/api").then(
+      response => response.json()
+    ).then(
+      data => {
+        setBackendData(data);
+      }
+    )
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {/* {(typeof backendData.users === 'undefined') ? (
+        <p>Loading...</p>
+      ): (
+        backendData.users.map((user, index) => (
+          <p key={index}>{user}</p>
+        ))
+      )} */}
     </div>
   );
 }
 
 export default App;
+
+
+// import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
+
+// // const express = require('express');
+// // const app = express();
+
+// function App() {
+//   const [message, setMessage] = useState('');
+
+//   useEffect(() => {
+//     axios.get('http://localhost:3000/')
+//       .then(response => {
+//         setMessage(response.data);
+//       })
+//       .catch(error => {
+//         console.error('There was an error!', error);
+//       });
+//   }, []);
+
+//   return (
+//     <div className="App">
+//       <h1>This is a request: {message}</h1>
+//     </div>
+//   );
+// }
+
+// export default App;
