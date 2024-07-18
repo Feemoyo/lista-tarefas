@@ -78,6 +78,7 @@ const Form = ({getUsers, onEdit, setOnEdit}) => {
 				.post("http://localhost:5000", {
 					name: user.name.value,
 					email: user.email.value,
+					password: user.password.value
 				})
 				.then(({data}) => toast.success(data))
 				.catch(({data}) => toast.error(data));
@@ -102,7 +103,7 @@ const Form = ({getUsers, onEdit, setOnEdit}) => {
 			</InputArea>
 			<InputArea>
 				<Label>Password</Label>
-				<Input name="email" type="password" />
+				<Input name="password" type="password" />
 			</InputArea>
 
 			<Button type="submit">Save</Button>
