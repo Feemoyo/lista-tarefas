@@ -8,7 +8,6 @@ This project is a simple todo list application. It allows users to create, updat
 - Mark tasks as complete or incomplete
 - Edit task details such as title and description
 - Delete tasks that are no longer needed
-- Filter tasks based on their completion status
 
 ## Installation
 1. Clone the repository: `git clone https://github.com/todo-list.git`
