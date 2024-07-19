@@ -1,7 +1,7 @@
 # Project Name: Todo List
 
 ## Description
-This project is a simple todo list application developed. It allows users to create, update, and delete tasks, helping them stay organized and productive.
+This project is a simple todo list application. It allows users to create, update, and delete tasks, helping them stay organized and productive.
 
 ## Features
 - Create new tasks with a title and description
