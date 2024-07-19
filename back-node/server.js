@@ -9,7 +9,7 @@ const port = 5000;
 app.use(express.json());
 app.use(cors());
 
-app.use("/users/", userRoutes);
+app.use("/tasks/", userRoutes);
 
 app.listen(port, () => {
 	console.log(`Server is running on http://localhost:${port}`);

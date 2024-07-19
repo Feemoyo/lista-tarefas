@@ -39,78 +39,79 @@ const Button = styled.button`
 	height: 42px;
 `;
 
-const Form = ({getUsers, onEdit, setOnEdit}) => {
+const Form = ({getTasks, onEdit, setOnEdit}) => {
 	const ref = useRef();
 
 	useEffect(() => {
 		if (onEdit) {
-			const user = ref.current;
-
-			user.name.value = onEdit.name;
-			user.email.value = onEdit.email;
-			user.password.value = onEdit.password;
+			const task = ref.current;
+			task.title.value = onEdit.title;
+			task.description.value = onEdit.description;
+			task.finished.checked = onEdit.finished ? true : false;
 		}
 	}, [onEdit]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		const user = ref.current;
+		const task = ref.current;
+		if (!task.title.value){
+			return toast.warn('Please fill in title field.');
+		}
 
-		if (
-			!user.name.value ||
-			!user.email.value ||
-			!user.password.value
-		) {
-			return toast.warn('Please fill in all fields');
-		 }
+
+		if (task.finished.checked) {
+			task.finished.value = 1;
+		}
+		else {
+			task.finished.value = 0;
+		}
 
 		if (onEdit) {
 			await axios
-				.put("http://localhost:5000/users/" + onEdit.id, {
-					name: user.name.value,
-					email: user.email.value,
-					password: user.password.value
+				.put("http://localhost:5000/tasks/" + onEdit.task_id, {
+					title: task.title.value,
+					description: task.description.value,
+					finished: task.finished.value
 				})
 				.then(({data}) => toast.success(data))
 				.catch(({data}) => toast.error(data));
 		} else {
 			await axios
-				.post("http://localhost:5000/users/", {
-					name: user.name.value,
-					email: user.email.value,
-					password: user.password.value
+				.post("http://localhost:5000/tasks/", {
+					title: task.title.value,
+					description: task.description.value,
+					finished: task.finished.value
 				})
 				.then(({data}) => toast.success(data))
 				.catch(({data}) => toast.error(data));
 		}
 
-		user.name.value = "";
-		user.email.value = "";
-		user.password.value = "";
+		task.title.value = "";
+		task.description.value = "";
+		task.finished.checked = false;
 
 		setOnEdit(null);
-		getUsers();
+		getTasks();
 	};
 
 	return (
 		<FormContainer ref={ref} onSubmit={handleSubmit}>
 			<InputArea>
-				<Label>Name</Label>
-				<Input name="name"/>
+				<Label>Title</Label>
+				<Input name="title"/>
 			</InputArea>
 			<InputArea>
-				<Label>E-mail</Label>
-				<Input name="email" type="email" />
+				<Label>Description</Label>
+				<Input name="description"/>
 			</InputArea>
 			<InputArea>
-				<Label>Password</Label>
-				<Input name="password" type="password" />
+				<Label>Finished</Label>
+				<Input name="finished" type="checkbox" />
 			</InputArea>
 
 			<Button type="submit">Save</Button>
 		</FormContainer>
-
 	);
 };
 

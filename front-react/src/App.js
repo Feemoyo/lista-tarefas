@@ -20,28 +20,28 @@ const Container = styled.div`
 const Title = styled.h2``;
 
 function App() {
-  const [users, setUsers] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const [onEdit, setOnEdit] = useState(null);
 
-  const getUsers = async () => {
+  const getTasks = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/users/");
-      setUsers(res.data.sort((a, b) => (a.name > b.name ? 1 : -1)));
+      const res = await axios.get("http://localhost:5000/tasks/");
+      setTasks(res.data.sort((a, b) => (a.title > b.title ? 1 : -1)));
     } catch (error) {
       toast.error(error);
     }
   };
 
   useEffect(() => {
-    getUsers();
-  }, [setUsers]);
+    getTasks();
+  }, [setTasks]);
 
   return (
     <>
     <Container>
-      <Title>Users</Title>
-      <Form onEdit={onEdit} setOnEdit={setOnEdit} getUsers={getUsers} />
-      <Grid setOnEdit={setOnEdit} users={users} setUsers={setUsers}/>
+      <Title>Tasks</Title>
+      <Form onEdit={onEdit} setOnEdit={setOnEdit} getTasks={getTasks} />
+      <Grid setOnEdit={setOnEdit} tasks={tasks} setTasks={setTasks}/>
     </Container>
     <ToastContainer autoClose={3000} position="bottom-left"/>
     <GlobalStyle />

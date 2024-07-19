@@ -1,7 +1,7 @@
 import {db} from "../db.js";
 
-export const getUsers = (_, res) => {
-  const query = "SELECT * FROM users";
+export const getTasks = (_, res) => {
+  const query = "SELECT * FROM main_table";
 
   db.query(query, (err, data) => {
 	if (err) {
@@ -11,8 +11,8 @@ export const getUsers = (_, res) => {
   });
 };
 
-export const addUser = (req, res) => {
-	const query = `INSERT INTO users(\`name\`, \`email\`, \`password\`) VALUES('${req.body.name}', '${req.body.email}', '${req.body.password}');`;
+export const addTask = (req, res) => {
+	const query = `INSERT INTO main_table(\`title\`, \`description\`, \`finished\`) VALUES('${req.body.title}', '${req.body.description}', '${req.body.finished}');`;
 
 	db.query(query, (err) => {
 		if (err) {
@@ -23,13 +23,13 @@ export const addUser = (req, res) => {
 	});
 };
 
-export const updateUser = (req, res) => {
-	const query = "UPDATE users SET `name` = ?, `email` = ?, `password` = ? WHERE `id` = ?";
+export const updateTask = (req, res) => {
+	const query = "UPDATE main_table SET `title` = ?, `description` = ?, `finished` = ? WHERE `task_id` = ?";
 
 	const values = [
-		req.body.name,
-		req.body.email,
-		req.body.password
+		req.body.title,
+		req.body.description,
+		req.body.finished
 	];
 
 	db.query(query, [...values, req.params.id], (err) => {
@@ -41,21 +41,14 @@ export const updateUser = (req, res) => {
 	});
 };
 //TODO: deleta todos as tasks do usuário e o usuario
-export const deleteUser = (req, res) => {
-	const queryTask = `DELETE FROM task WHERE \`owner_id\` = '${req.params.id}';` 
-
-	const queryUsers = `DELETE FROM users WHERE \`id\` = '${req.params.id}';`;
+export const deleteTask = (req, res) => {
+	const queryTask = `DELETE FROM main_table WHERE \`task_id\` = '${req.params.id}';` ;
 
 	db.query(queryTask, (err) => {
 		if (err) {
 			return (res.json(err));
-	}});
-
-	db.query(queryUsers, (err) => {
-		if (err) {
-			return (res.json(err));
 		}
 
-		return (res.status(200).json("User deleted"));
+			return (res.status(200).json("User deleted"));
 	});
 };

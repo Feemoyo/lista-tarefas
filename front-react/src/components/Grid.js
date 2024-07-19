@@ -2,7 +2,9 @@ import React from "react";
 import axios from "axios";
 import styled from "styled-components";
 import {FaTrash, FaEdit} from "react-icons/fa";
+import {ImRadioChecked, ImRadioUnchecked} from "react-icons/im";
 import {toast} from "react-toastify";
+import {useState} from "react";
 
 const Table = styled.table`
 	width: 100%;
@@ -41,18 +43,23 @@ export const Td = styled.td`
 	}
 `;
 
-const Grid = ({users, setUsers, setOnEdit}) => {
+
+
+const Grid = ({tasks, setTasks, setOnEdit}) => {
 	const handleEdit = (item) => {
 		setOnEdit(item);
 	}
 
-	const handleDelete = async (id) => {
+	const handleCheck = async (task_id) => {
 		await axios
-			.delete("http://localhost:5000/users/" + id)
-			.then(({data}) => {
-				const newArray = users.filter((user) => user.id !== id);
+			.put(`http://localhost:5000/tasks/${task_id.task_id}`, {
+				title: task_id.title,
+				description: task_id.description,
+				finished: task_id.finished ? 0 : 1
 
-				setUsers(newArray);
+			})
+			.then(({data}) => {
+				setTasks(tasks.map((task) => (task.task_id === task_id.task_id ? {...task, finished: !task.finished} : task)));
 				toast.success(data);
 			})
 			.catch(({data}) => toast.error(data));
@@ -60,26 +67,53 @@ const Grid = ({users, setUsers, setOnEdit}) => {
 		setOnEdit(null);
 	};
 
+	const handleDelete = async (task_id) => {
+		await axios
+			.delete("http://localhost:5000/tasks/" + task_id)
+			.then(({data}) => {
+				const newArray = tasks.filter((task) => task.task_id !== task_id);
+
+				setTasks(newArray);
+				toast.success(data);
+			})
+			.catch(({data}) => toast.error(data));
+
+		setOnEdit(null);
+	};
+
+	const ToggleIcon = ({ finished, onToggle }) => {
+
+		return (
+		  <span onClick={onToggle}>
+			{finished ? <ImRadioChecked /> : <ImRadioUnchecked />}
+		  </span>
+		);
+	  };
+
 	return (
 		<Table>
 			<Thead>
 				<Tr>
-					<Th>Name</Th>
-					<Th>E-mail</Th>
-					<Th></Th>
-					<Th></Th>
+					<Th>Task</Th>
+					<Th>Description</Th>
+					<Th>Status</Th>
+					<Th>Action</Th>
 				</Tr>
 			</Thead>
 			<Tbody>
-				{users.map((item, i) => (
-					<Tr key={i}>
-						<Td width="30%">{item.name}</Td>
-						<Td width="30%">{item.email}</Td>
+				{tasks.map((item, i) => (
+					<Tr key={item.task_id}>
+						<Td width="30%">{item.title}</Td>
+						<Td width="30%">{item.description}</Td>
+						<Td width="30%">
+							{item.finished ? 'Finished' : 'In Progress'}
+							<ToggleIcon finished={item.finished} onToggle={() => handleCheck(item)} />
+						</Td>
 						<Td alignCenter width="5%">
 							<FaEdit onClick={() => handleEdit(item)} />
 						</Td>
 						<Td alignCenter width="5%">
-							<FaTrash onClick={() => handleDelete(item.id)} />
+							<FaTrash onClick={() => handleDelete(item.task_id)} />
 						</Td>
 					</Tr>
 				))}
