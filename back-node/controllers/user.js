@@ -12,13 +12,7 @@ export const getUsers = (_, res) => {
 };
 
 export const addUser = (req, res) => {
-	const query = `INSERT INTO users('name', 'email', 'password') VALUES('${req.body.name}', '${req.body.email}', '${req.body.password}')`;
-
-	// const values = [
-	// 	req.body.name,
-	// 	req.body.email,
-	// 	req.body.password
-	// ];
+	const query = `INSERT INTO users(\`name\`, \`email\`, \`password\`) VALUES('${req.body.name}', '${req.body.email}', '${req.body.password}');`;
 
 	db.query(query, (err) => {
 		if (err) {
@@ -30,7 +24,7 @@ export const addUser = (req, res) => {
 };
 
 export const updateUser = (req, res) => {
-	const query = "UPDATE users SET 'name' = ?, 'email' = ?, 'password' = ? WHERE 'id' = ?";
+	const query = "UPDATE users SET `name` = ?, `email` = ?, `password` = ? WHERE `id` = ?";
 
 	const values = [
 		req.body.name,
@@ -48,7 +42,7 @@ export const updateUser = (req, res) => {
 };
 
 export const deleteUser = (req, res) => {
-	const query = "DELETE FROM users WHERE 'id' = ?";
+	const query = "DELETE FROM users WHERE `id` = ?";
 
 	db.query(query, [req.params.id], (err) => {
 		if (err) {

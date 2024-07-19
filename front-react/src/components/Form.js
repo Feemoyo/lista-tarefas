@@ -59,7 +59,8 @@ const Form = ({getUsers, onEdit, setOnEdit}) => {
 
 		if (
 			!user.name.value ||
-			!user.email.value
+			!user.email.value ||
+			!user.password.value
 		) {
 			return toast.warn('Please fill in all fields');
 		 }
@@ -86,6 +87,7 @@ const Form = ({getUsers, onEdit, setOnEdit}) => {
 
 		user.name.value = "";
 		user.email.value = "";
+		user.password.value = "";
 
 		setOnEdit(null);
 		getUsers();
