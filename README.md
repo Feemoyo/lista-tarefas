@@ -14,12 +14,20 @@ This project is a simple todo list application. It allows users to create, updat
 2. Navigate to the project directory: `cd todo-list/`
 3. Install front-end dependencies: `cd ./front-react/ && npm install && cd ..`
 4. Install back-end dependencies: `cd ./back-node/ && npm install && cd ..`
-4. Set MySQL: "CREATE TABLE `tasks_main`.`new_table` (
-  `task_id` INT NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(45) NOT NULL,
-  `description` VARCHAR(45) NULL,
-  `finished` TINYINT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`task_id`));`"
+5. Set up MySQL database:
+- Log in to your MySQL server:
+  ```
+  mysql -u yourUsername -p
+  ```
+- Execute the following SQL command to create the table:
+  ```sql
+  CREATE TABLE `tasks_main`.`new_table` (
+    `task_id` INT NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(45) NOT NULL,
+    `description` VARCHAR(45) NULL,
+    `finished` TINYINT NOT NULL DEFAULT 0,
+    PRIMARY KEY (`task_id`));
+  ```
 
 
 ## Run
