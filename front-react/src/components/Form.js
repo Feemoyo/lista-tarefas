@@ -67,7 +67,7 @@ const Form = ({getUsers, onEdit, setOnEdit}) => {
 
 		if (onEdit) {
 			await axios
-				.put("http://localhost:5000/" + onEdit.id, {
+				.put("http://localhost:5000/users/" + onEdit.id, {
 					name: user.name.value,
 					email: user.email.value,
 					password: user.password.value
@@ -76,7 +76,7 @@ const Form = ({getUsers, onEdit, setOnEdit}) => {
 				.catch(({data}) => toast.error(data));
 		} else {
 			await axios
-				.post("http://localhost:5000", {
+				.post("http://localhost:5000/users/", {
 					name: user.name.value,
 					email: user.email.value,
 					password: user.password.value
@@ -96,7 +96,7 @@ const Form = ({getUsers, onEdit, setOnEdit}) => {
 	return (
 		<FormContainer ref={ref} onSubmit={handleSubmit}>
 			<InputArea>
-				<Label>Nome</Label>
+				<Label>Name</Label>
 				<Input name="name"/>
 			</InputArea>
 			<InputArea>

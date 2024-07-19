@@ -40,11 +40,18 @@ export const updateUser = (req, res) => {
 		return (res.status(200).json("User updated"));
 	});
 };
-
+//TODO: deleta todos as tasks do usuário e o usuario
 export const deleteUser = (req, res) => {
-	const query = "DELETE FROM users WHERE `id` = ?";
+	const queryTask = `DELETE FROM task WHERE \`owner_id\` = '${req.params.id}';` 
 
-	db.query(query, [req.params.id], (err) => {
+	const queryUsers = `DELETE FROM users WHERE \`id\` = '${req.params.id}';`;
+
+	db.query(queryTask, (err) => {
+		if (err) {
+			return (res.json(err));
+	}});
+
+	db.query(queryUsers, (err) => {
 		if (err) {
 			return (res.json(err));
 		}

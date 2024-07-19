@@ -48,7 +48,7 @@ const Grid = ({users, setUsers, setOnEdit}) => {
 
 	const handleDelete = async (id) => {
 		await axios
-			.delete("http://localhost:5000/" + id)
+			.delete("http://localhost:5000/users/" + id)
 			.then(({data}) => {
 				const newArray = users.filter((user) => user.id !== id);
 
@@ -65,7 +65,7 @@ const Grid = ({users, setUsers, setOnEdit}) => {
 			<Thead>
 				<Tr>
 					<Th>Name</Th>
-					<Th>Email</Th>
+					<Th>E-mail</Th>
 					<Th></Th>
 					<Th></Th>
 				</Tr>
